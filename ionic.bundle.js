@@ -9,7 +9,7 @@
  * Copyright 2015 Drifty Co.
  * http://drifty.com/
  *
- * Ionic, v1.1.1-nightly-1786
+ * Ionic, v1.1.1
  * A powerful HTML5 mobile app framework.
  * http://ionicframework.com/
  *
@@ -25,7 +25,7 @@
 // build processes may have already created an ionic obj
 window.ionic = window.ionic || {};
 window.ionic.views = {};
-window.ionic.version = '1.1.1-nightly-1786';
+window.ionic.version = '1.1.1';
 
 (function (ionic) {
 
@@ -723,7 +723,7 @@ window.ionic.version = '1.1.1-nightly-1786';
     // whatever lookup was done to find this element failed to find it
     // so we can't listen for events on it.
     if(element === null) {
-      void 0;
+      console.error('Null element passed to gesture (element does not exist). Not listening for gesture');
       return this;
     }
 
@@ -2428,7 +2428,9 @@ window.ionic.version = '1.1.1-nightly-1786';
   function verifyPlatformReady() {
     setTimeout(function() {
       if(!self.isReady) {
-        void 0;
+        console.warn('Possible issue: deviceready did not fire in a reasonable amount of time. ' +
+        'This can be caused by plugins in an inconsistent state. One possible solution: uninstall/remove all ' +
+        'plugins and reinstall them. Additionally, one or more plugins might be faulty or out of date.');
       }
     }, platformReadyTimer);
   }
@@ -2680,14 +2682,12 @@ ionic.tap = {
     tapEventListener('mousedown');
 
     if (window.navigator.pointerEnabled) {
-      console.log('POINTER ENABLED');
       tapEventListener('pointerdown');
       tapEventListener('pointerup');
       tapEventListener('pointcancel');
       tapTouchMoveListener = 'pointermove';
 
     } else if (window.navigator.msPointerEnabled) {
-      console.log('MSPOINTER ENABLED');
       tapEventListener('MSPointerDown');
       tapEventListener('MSPointerUp');
       tapEventListener('MSPointerCancel');
@@ -2922,7 +2922,7 @@ function tapMouseDown(e) {
   if (e.isIonicTap || tapIgnoreEvent(e)) return null;
 
   if (tapEnabledTouchEvents) {
-    void 0;
+    console.log('mousedown', 'stop event');
     e.stopPropagation();
 
     if ((!ionic.tap.isTextInput(e.target) || tapLastTouchTarget !== e.target) && !isSelectOrOption(e.target.tagName) && !ionic.tap.isVideo(e.target)) {
@@ -2995,7 +2995,6 @@ function tapTouchStart(e) {
     var textInput = tapTargetElement(tapContainingElement(e.target));
     if (textInput !== tapActiveEle) {
       // don't preventDefault on an already focused input or else iOS's text caret isn't usable
-      void 0;
       e.preventDefault();
     }
   }
@@ -3093,7 +3092,7 @@ function tapHandleFocus(ele) {
 function tapFocusOutActive() {
   var ele = tapActiveElement();
   if (ele && ((/^(input|textarea|select)$/i).test(ele.tagName) || ele.isContentEditable)) {
-    void 0;
+    console.log('tapFocusOutActive', ele.tagName);
     ele.blur();
   }
   tapActiveElement(null);
@@ -3114,7 +3113,7 @@ function tapFocusIn(e) {
     // 2) There is an active element which is a text input
     // 3) A text input was just set to be focused on by a touch event
     // 4) A new focus has been set, however the target isn't the one the touch event wanted
-    void 0;
+    console.log('focusin', 'tapTouchFocusedInput');
     tapTouchFocusedInput.focus();
     tapTouchFocusedInput = null;
   }
@@ -6925,7 +6924,7 @@ ionic.scroll = {
 (function(ionic) {
   var NOOP = function() {};
   var depreciated = function(name) {
-    void 0;
+    console.error('Method not available in native scrolling: ' + name);
   };
   ionic.views.ScrollNative = ionic.views.View.inherit({
 
@@ -25354,7 +25353,7 @@ function adjustMatchers(matchers) {
  *
  * - your app is hosted at url `http://myapp.example.com/`
  * - but some of your templates are hosted on other domains you control such as
- *   `http://srv01.assets.example.com/`,  `http://srv02.assets.example.com/`, etc.
+ *   `http://srv01.assets.example.com/`,  `http://srv02.assets.example.com/`, etc.
  * - and you have an open redirect at `http://myapp.example.com/clickThru?...`.
  *
  * Here is what a secure configuration for this scenario might look like:
@@ -45957,7 +45956,7 @@ angular.module('ui.router.state')
  * Copyright 2015 Drifty Co.
  * http://drifty.com/
  *
- * Ionic, v1.1.1-nightly-1786
+ * Ionic, v1.1.1
  * A powerful HTML5 mobile app framework.
  * http://ionicframework.com/
  *
@@ -46860,7 +46859,7 @@ function($rootScope, $state, $location, $window, $timeout, $ionicViewSwitcher, $
         // create an element from the viewLocals template
         ele = $ionicViewSwitcher.createViewEle(viewLocals);
         if (this.isAbstractEle(ele, viewLocals)) {
-          void 0;
+          console.log('VIEW', 'abstractView', DIRECTION_NONE, viewHistory.currentView);
           return {
             action: 'abstractView',
             direction: DIRECTION_NONE,
@@ -46981,7 +46980,7 @@ function($rootScope, $state, $location, $window, $timeout, $ionicViewSwitcher, $
         }
       }
 
-      void 0;
+      console.log('VIEW', action, direction, viewHistory.currentView);
 
       hist.cursor = viewHistory.currentView.index;
 
@@ -53560,7 +53559,7 @@ function($scope, $attrs, $ionicSideMenuDelegate, $ionicPlatform, $ionicBody, $io
 
     isAsideExposed = shouldExposeAside;
     if ((self.left && self.left.isEnabled) && (self.right && self.right.isEnabled)) {
-      void 0;
+      console.log('Setting left and right');
       self.content.setMarginLeftAndRight(isAsideExposed ? self.left.width : 0, isAsideExposed ? self.right.width : 0);
     } else if (self.left && self.left.isEnabled) {
       // set the left marget width if it should be exposed
@@ -53656,7 +53655,7 @@ function($scope, $attrs, $ionicSideMenuDelegate, $ionicPlatform, $ionicBody, $io
     var menuEnabled = enableMenuWithBackViews ? true : !backView;
     if (!menuEnabled) {
       var currentView = $ionicHistory.currentView() || {};
-      return (dragIsWithinBounds && (backView.historyId !== currentView.historyId));
+      return backView.historyId !== currentView.historyId;
     }
 
     return ($scope.dragContent || self.isOpen()) &&
@@ -56381,130 +56380,6 @@ IonicModule
       if (doImmediateCheck) {
         $timeout(function() { infiniteScrollCtrl.checkBounds(); });
       }
-    }
-  };
-}]);
-
-/**
-* @ngdoc directive
-* @name ionInput
-* @parent ionic.directive:ionList
-* @module ionic
-* @restrict E
-* Creates a text input group that can easily be focused
-*
-* @usage
-*
-* ```html
-* <ion-list>
-*   <ion-input>
-*     <input type="text" placeholder="First Name">
-*   <ion-input>
-*
-*   <ion-input>
-*     <ion-label>Username</ion-label>
-*     <input type="text">
-*   </ion-input>
-* </ion-list>
-* ```
-*/
-
-var labelIds = -1;
-
-IonicModule
-.directive('ionInput', [function() {
-  return {
-    restrict: 'E',
-    controller: ['$scope', '$element', function($scope, $element) {
-      this.$scope = $scope;
-      this.$element = $element;
-
-      this.input = $element[0].querySelector('input,textarea');
-    }]
-  };
-}]);
-
-/**
-* @ngdoc directive
-* @name ionLabel
-* @parent ionic.directive:ionList
-* @module ionic
-* @restrict E
-*
-* New in Ionic 1.2. It is strongly recommended that you use `<ion-label>` in place
-* of any `<label>` elements for maximum cross-browser support and performance.
-*
-* Creates a label for a form input.
-*
-* @usage
-*
-* ```html
-* <ion-list>
-*   <ion-input>
-*     <ion-label>Username</ion-label>
-*     <input type="text">
-*   </ion-input>
-* </ion-list>
-* ```
-*/
-IonicModule
-.directive('ionLabel', ['$timeout', function($timeout) {
-  return {
-    restrict: 'E',
-    require: '?^ionInput',
-    compile: function() {
-
-      return function link($scope, $element, $attrs, ionInputCtrl) {
-        var element = $element[0];
-
-        $element.addClass('input-label');
-
-        $element.attr('aria-label', $element.text());
-        var id = element.id || '_label-' + ++labelIds;
-
-        if (!element.id) {
-          $element.attr('id', id);
-        }
-
-        if (ionInputCtrl && ionInputCtrl.input) {
-          ionInputCtrl.input.setAttribute('aria-labelledby', id);
-
-          $element.on('click', function() {
-            $timeout(function() {
-              ionInputCtrl.input.focus();
-            });
-          });
-        }
-      };
-    }
-  };
-}]);
-
-/**
- * Input label adds accessibility to <span class="input-label">.
- */
-IonicModule
-.directive('inputLabel', [function() {
-  return {
-    restrict: 'C',
-    require: '?^ionInput',
-    compile: function() {
-
-      return function link($scope, $element, $attrs, ionInputCtrl) {
-        var element = $element[0];
-
-        $element.attr('aria-label', $element.text());
-        var id = element.id || '_label-' + ++labelIds;
-
-        if (!element.id) {
-          $element.attr('id', id);
-        }
-
-        if (ionInputCtrl && ionInputCtrl.input) {
-          ionInputCtrl.input.setAttribute('aria-labelledby', id);
-        }
-
-      };
     }
   };
 }]);
