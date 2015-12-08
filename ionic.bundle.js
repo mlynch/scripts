@@ -2680,12 +2680,14 @@ ionic.tap = {
     tapEventListener('mousedown');
 
     if (window.navigator.pointerEnabled) {
+      console.log('POINTER ENABLED');
       tapEventListener('pointerdown');
       tapEventListener('pointerup');
       tapEventListener('pointcancel');
       tapTouchMoveListener = 'pointermove';
 
     } else if (window.navigator.msPointerEnabled) {
+      console.log('MSPOINTER ENABLED');
       tapEventListener('MSPointerDown');
       tapEventListener('MSPointerUp');
       tapEventListener('MSPointerCancel');
